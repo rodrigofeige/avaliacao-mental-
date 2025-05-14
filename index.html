@@ -230,10 +230,12 @@ salvarResposta(total, respostaAberta);
       });
     })();
   </script>
-  <script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <!-- Firebase SDKs - essas duas devem estar fora do script de configuração -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
-  // Configuração do Firebase (copiada do painel)
+
+<script>
+  // Configuração do Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDK3GiiaqqyeOCMovRiTCcO3oBvewt66rk",
     authDomain: "phq9-avaliacao.firebaseapp.com",
@@ -244,11 +246,11 @@ salvarResposta(total, respostaAberta);
     measurementId: "G-H6FDGB8BDS"
   };
 
-  // Inicializar Firebase e Firestore
+  // Inicialização
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // Enviar dados para o Firestore
+  // Função para salvar os dados
   async function salvarResposta(score, respostaAberta) {
     try {
       await db.collection("respostasPHQ9").add({
@@ -256,9 +258,9 @@ salvarResposta(total, respostaAberta);
         resposta_aberta: respostaAberta,
         timestamp: new Date().toISOString()
       });
-      console.log("Resposta salva com sucesso.");
+      console.log("✅ Resposta salva com sucesso.");
     } catch (error) {
-      console.error("Erro ao salvar:", error);
+      console.error("❌ Erro ao salvar:", error);
     }
   }
 </script>
