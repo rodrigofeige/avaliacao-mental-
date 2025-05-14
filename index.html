@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Autoavaliação PHQ-9</title>
@@ -194,6 +195,8 @@
         const resposta = document.getElementById('resposta').value.trim();
         resultado.style.display = 'block';
         resultado.innerHTML = `<strong>Pontuação Total:</strong> ${pontuacaoFinal}<br><strong>Nível:</strong> ${nivelFinal}<br><br><em>${mensagemFinal}</em>` + (resposta ? `<br><br><strong>Resposta:</strong> ${resposta}` : '');
+        const respostaAberta = document.getElementById('resposta')?.value.trim() || "";
+salvarResposta(total, respostaAberta);
       });
       reiniciar.addEventListener('click', () => {
         formulario.reset();
@@ -227,5 +230,38 @@
       });
     })();
   </script>
+  <script>
+  // Configuração do Firebase (copiada do painel)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDK3GiiaqqyeOCMovRiTCcO3oBvewt66rk",
+    authDomain: "phq9-avaliacao.firebaseapp.com",
+    projectId: "phq9-avaliacao",
+    storageBucket: "phq9-avaliacao.appspot.com",
+    messagingSenderId: "847510705555",
+    appId: "1:847510705555:web:4467d2b6f308b39c8d8466",
+    measurementId: "G-H6FDGB8BDS"
+  };
+
+  // Inicializar Firebase e Firestore
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // Enviar dados para o Firestore
+  async function salvarResposta(score, respostaAberta) {
+    try {
+      await db.collection("respostasPHQ9").add({
+        pontuacao: score,
+        resposta_aberta: respostaAberta,
+        timestamp: new Date().toISOString()
+      });
+      console.log("Resposta salva com sucesso.");
+    } catch (error) {
+      console.error("Erro ao salvar:", error);
+    }
+  }
+</script
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
 </body>
 </html>
